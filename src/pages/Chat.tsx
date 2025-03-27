@@ -55,7 +55,7 @@ const Chat = () => {
     }
 
     const messageData = {
-      recipient: userId as string,
+      recipient: messages?.otherUser._id as string,
       message: content,
     };
 
