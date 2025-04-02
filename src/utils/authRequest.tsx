@@ -2,6 +2,9 @@ import { AxiosResponse } from "axios";
 import { User } from "../types/user";
 import { axiosConfig } from "./axiosConfig";
 import { errorToast, successToast } from "oasis-toast";
+// import { useUserStore } from "../store/UseUserStore";
+
+
 
 
 export const signup = async (data: {
@@ -11,6 +14,8 @@ export const signup = async (data: {
   password: string;
   userType: string | null;
 }): Promise<AxiosResponse<User> | undefined> => {
+
+
 
 
   try {

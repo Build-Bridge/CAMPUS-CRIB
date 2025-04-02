@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import agentPic from "/icons/profile.png";
 import { LuPhone } from "react-icons/lu";
 import { Link, useParams } from "react-router";
@@ -14,10 +14,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { messaging } from "../utils/messageRequest";
 import Loader from "../components/Reuseables/Loader";
 
+
+
 const Chat = () => {
+  // allmessages();
   const { userId } = useParams();
+  const [otherUser, setOtherUser] = useState<any | null>(null);
+  // const [localMessages, setLocalMessages] = useState([]);
   // const {socket, isConnected} = useSocket()
-  console.log(userId);
+  // console.log(userId);
+
   const [content, setContent] = useState("");
 
   const queryClient = useQueryClient();
@@ -26,10 +32,25 @@ const Chat = () => {
     data: messages,
     isError,
     isFetching,
+    isLoading,
+    isFetchedAfterMount
   } = useQuery({
     queryKey: ["messages"],
     queryFn: () => fetchMessages(userId as string),
   });
+
+
+  useEffect( () => {
+
+    if (isFetchedAfterMount) {
+      console.log("first other user", messages)
+      setOtherUser(messages[0]?.otherUser); // Save the first fetch result
+    }
+
+  },[isFetchedAfterMount, messages, otherUser]);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  // setOtherUser(messages[0].otherUser);
 
   queryClient.invalidateQueries({ queryKey: ["messages"] });
 
@@ -47,7 +68,6 @@ const Chat = () => {
   };
 
   const sendMessage = async () => {
-
     // console.log("content", content);
     if (content.trim() === "") {
       return;
@@ -101,8 +121,8 @@ const Chat = () => {
     });
   };
 
-  if(isError){
-    return <div>Error fetching messages</div>
+  if (isError) {
+    return <div>Error fetching messages</div>;
   }
   return (
     <main className="">
@@ -113,12 +133,16 @@ const Chat = () => {
         >
           <img src={back} alt="back" className="size-3.5" />
         </Link>
+
+        
         {isTexted && (
           <div className="flex justify-between grow">
             <div className="flex gap-2 items-center">
               <img src={agentPic} className="size-11 rounded-xl" />
               <div>
-                <h2 className="text-dark font-semibold">Aremu</h2>
+                <h2 className="text-dark font-semibold">
+                  {otherUser?.firstName}
+                </h2>
               </div>
             </div>
 
@@ -132,9 +156,11 @@ const Chat = () => {
       <section className="p-5 py-16 bg-[#f7f7f7]">
         {/* <p>golke</p> */}
         {isFetching && <Loader />}
-        {messages?.length > 0 ? (
+        {isLoading ? (
+          <Loader />
+        ) : messages[0].length > 0 ? (
           <div>
-            {messages?.map((message: any, i: number) => (
+            {messages[0].map((message: any, i: number) => (
               <div
                 key={i}
                 className={`flex my-3 ${
@@ -156,6 +182,7 @@ const Chat = () => {
                 </div>
               </div>
             ))}
+
             <div className="bg-white rounded-xl max-w-[90%] p-2">
               <img
                 src="https://placehold.co/600x400/png"
@@ -182,7 +209,10 @@ const Chat = () => {
               alt="back"
               className="size-36  rounded-xl object-cover"
             />
-            <h2 className="text-dark font-semibold text-xl">Aremu Davies</h2>
+            <h2 className="text-dark font-semibold text-xl">
+            {messages[0]?.otherUser?.firstName} {" "}
+            {messages[0]?.otherUser?.lastName}
+            </h2>
             <div className="text-variant-500 flex gap-2 items-center">
               <span>Verified Agent</span>{" "}
               <img src={verifiedId} className="size-5" />
@@ -191,6 +221,7 @@ const Chat = () => {
         )}
       </section>
 
+      {/* Send Message input function */}
       <div className="w-full py-2.5 px-5 flex rounded-t-xl bg-white items-center justify-between bottom-0 fixed">
         {/* <div> */}
         <HiPlus className="text-variant-400 size-6" />

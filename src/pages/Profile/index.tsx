@@ -21,9 +21,17 @@ import { TbReportAnalytics } from "react-icons/tb";
 import { PiHandWithdrawBold } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
 
+import { useUserStore } from "../../store/UseUserStore";
+
 const Profile = () => {
   const navigate = useNavigate();
-  const { fetchedUser: user, userType } = useUserContext();
+  const {  userType } = useUserContext();
+
+  const { user, setUserData } = useUserStore();
+
+
+
+
   const profileItems = [
     {
       title: "Personal Details",
@@ -114,6 +122,8 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    setUserData(null);
+    // setUser(null)
     navigate("/account-type", { replace: true });
   };
 
