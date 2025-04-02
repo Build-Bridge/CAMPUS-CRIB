@@ -3,6 +3,7 @@ import { User } from "../types/user";
 import { axiosConfig } from "./axiosConfig";
 import { errorToast, successToast } from "oasis-toast";
 
+
 export const signup = async (data: {
   firstName: string;
   lastName: string;
@@ -10,12 +11,15 @@ export const signup = async (data: {
   password: string;
   userType: string | null;
 }): Promise<AxiosResponse<User> | undefined> => {
+
+
   try {
     const response = await axiosConfig.post("auth/sign-up", data);
 
     // If response exists and is valid, handle it
     if (response && response.data && response.data) {
       successToast("Authentication successful", "Welcome to Campus Crib")
+      // setUserData(response.data.data.user);
       localStorage.setItem("token", response.data.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
       return response;

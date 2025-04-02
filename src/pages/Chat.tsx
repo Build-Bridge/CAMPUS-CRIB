@@ -46,13 +46,17 @@ const Chat = () => {
     message: content,
   };
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
+
+    // console.log("content", content);
     if (content.trim() === "") {
       return;
     }
-    console.log(setIsTexted(true))
+    console.log("my content", content);
+    // console.log(setIsTexted(true))
+    setIsTexted(true);
 
-    mutation.mutate();
+    await mutation.mutate();
     setContent("");
   };
 
@@ -126,8 +130,9 @@ const Chat = () => {
       </div>
 
       <section className="p-5 py-16 bg-[#f7f7f7]">
+        {/* <p>golke</p> */}
         {isFetching && <Loader />}
-        {messages.length > 0 ? (
+        {messages?.length > 0 ? (
           <div>
             {messages?.map((message: any, i: number) => (
               <div
@@ -195,6 +200,7 @@ const Chat = () => {
             type="text"
             className="w-full bg-[#E5E5E54D] p-2 outline-none rounded-lg"
             placeholder="Type something..."
+            value={content}
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
