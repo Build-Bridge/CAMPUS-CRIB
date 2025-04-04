@@ -128,7 +128,7 @@ const Chat = () => {
     <main className="">
       <div className="flex items-center gap-2 px-5 py-2.5 top-0 fixed w-full bg-white">
         <Link
-          to={"/"}
+          to={"/chat"}
           className="rounded-full bg-primary size-7 flex items-center justify-center"
         >
           <img src={back} alt="back" className="size-3.5" />

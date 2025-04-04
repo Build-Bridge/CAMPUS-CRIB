@@ -36,18 +36,18 @@ const HotelCard = ({
         isFlex && "grid grid-cols-1 gap-x-1 items-center"
       }`}
     >
-      <div className="relative w-4/5 h-[230px]">
+      <div className="relative h-[230px]">
         <img
           src={image}
           alt="Aerial view of a large hotel complex surrounded by greenery"
-          className="w-full h-48 object-cover rounded-xl"
+          className="w-full h-full object-cover rounded-xl border shadow"
         />
-        <div className="absolute top-2 right-2 bg-white/80 rounded-full p-2 shadow-md">
+        <div className="absolute top-3 right-3 bg-white/80 rounded-full p-2 shadow-md">
           {/* <i className="fas fa-heart text-gray-500"></i> */}
-          <Heart size="32" color="#ffffff" />
+          <Heart size="28" color="#ffffff" />
         </div>
       </div>
-      <div className="py-3">
+      <div className="pb-3 pt-1.5">
         <h2 className="text-lg font-semibold text-left">{title}</h2>
         <div className=" text-dark flex items-center text-left gap-1 justify-start mt-2 ">
           <div>

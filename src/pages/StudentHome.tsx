@@ -9,24 +9,40 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchAllHostels } from "../lib/fetchHostels";
 // import { useUserContext } from "../contexts/UserContext";
 import { useUserStore } from "../store/UseUserStore";
+import { useHostelStore } from "../store/useHostelsStore";
 
-
-const  StudentHome: React.FC = () => {
+const StudentHome: React.FC = () => {
   const [userProfile, setUserProfile] = useState<any | null>(null);
-  
+  const [hostels, setHostels] = useState<any | null>(null);
+
   const { user } = useUserStore();
+  const { storedHostels, setStoredHostels } = useHostelStore();
   const localUser = localStorage.getItem("user");
 
-
-
-  useEffect(() => {
-    setUserProfile(user || (localUser ? JSON.parse(localUser) : null));
-  }, []);
-  
-  const { data: hostels } = useQuery({
+  const { data: fetchedHostels } = useQuery({
     queryKey: ["hostels"],
     queryFn: fetchAllHostels,
   });
+
+  useEffect(() => {
+    setUserProfile(user || (localUser ? JSON.parse(localUser) : null));
+  }, [localUser, user]);
+
+  useEffect(() => {
+    setHostels(fetchedHostels || storedHostels);
+
+    
+    if ( fetchedHostels && JSON.stringify(fetchedHostels) !== JSON.stringify(storedHostels) ) {
+      setStoredHostels(fetchedHostels);
+    }
+
+    // console.log("Hostels", hostels);
+
+    // console.log("fetched", fetchedHostels)
+
+    // console.log("stored hostek", storedHostels);
+
+  }, [hostels, storedHostels, setStoredHostels, fetchedHostels]);
 
   return (
     <main>

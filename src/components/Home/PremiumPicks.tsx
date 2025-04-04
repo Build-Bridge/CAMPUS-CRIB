@@ -20,14 +20,14 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({ hostels }) => {
   return (
     <div className="mb-6 w-full">
       <h2 className="text-dark font-semibold my-4">Premium Picks</h2>
-      <div className="flex flex-1 w-full overflow-x-scroll gap-x-1.5 mb-2 no-scrollbar">
+      <div className="flex flex-1 w-full overflow-x-scroll gap-x-2.5 mb-2 no-scrollbar">
         {hostels && hostels?.map((hostel: Hostel) => (
           <div onClick={() => navigate(`/hostel/${hostel._id}`)} className="bg-white min-w-[80vw]" key={hostel._id}>
-            <div className="relative w-[90%] h-[230px]">
+            <div className="relative w-full h-[230px]">
               <img
                 src={hostel.images[0]}
                 alt="Modern building with trees"
-                className="rounded-xl w-full h-full object-cover"
+                className="rounded-xl w-full h-full object-cover border shadow"
                 onClick={() => navigate(`/hostel/${hostel._id}`)}
               />
               <button onClick={() => handleBookmark(hostel._id, 'add')} className="absolute top-2 right-2 bg-white/80 bg-opacity-25  rounded-xl p-2 shadow-md">
@@ -44,7 +44,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({ hostels }) => {
               <img src={mapMarker} className="size-5 mr-1" />
               <span>{hostel.location}</span>
             </div>
-            <p className="text-gray-500 mt-2 text-sm text-[#64748B]">
+            <p className=" mt-2 text-sm text-[#64748B]">
               {hostel.description}
             </p>
           </div>
