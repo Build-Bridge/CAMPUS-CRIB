@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import profilePic from "/icons/profile.png";
 import { convertToNormalTime } from "../../utils/ConvertToNormalTime";
-import { fetchUserById } from "../../lib/fetchUser";
-import { useQuery } from "@tanstack/react-query";
+// import { fetchUserById } from "../../lib/fetchUser";
+// import { useQuery } from "@tanstack/react-query";
 
 const ChatComponent = ({ item }: any) => {
-  const { data: user } = useQuery({
-    queryKey: ["user"],
-    queryFn: () => fetchUserById(item.participants[0]),
-  });
+  // const { data: user } = useQuery({
+  //   queryKey: ["user"],
+  //   queryFn: () => fetchUserById(item.participants[0]),
+  // });
 
   return (
     <div className="border-b py-4 flex justify-between items-center">
@@ -17,8 +18,8 @@ const ChatComponent = ({ item }: any) => {
         </div>
         <div className="flex-row grow">
           <p className="font-semibold">
-            {user?.firstname} {user?.lastname}{" "}
-            {user?.userType === "AGENT" && (
+            {item?.otherUser?.firstName} {item?.otherUser?.lastName}{" "}
+            {item?.otherUser?.userType === "AGENT" && (
               <span className="font-normal text-sm text-[#1B85A6]">Agent</span>
             )}
           </p>
